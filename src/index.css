@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import "tailwindcss";
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #0d0d0d;
+  color: #e0e0e0;
+  font-family: 'Press Start 2P', 'Courier New', monospace;
+  font-size: 10px;
+  overflow: hidden;
+}
+
+#root { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+
+/* ── Scrollbar ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #333; border: 1px solid #222; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* ── Pixel components ──────────────────────────────── */
+.pixel-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  padding: 6px 10px;
+  border: 2px solid #555;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s, transform 0.05s;
+}
+.pixel-btn:hover { background: #2a2a2a; border-color: #888; }
+.pixel-btn:active { transform: translateY(1px); }
+
+.pixel-btn-primary { border-color: #4a9eff; background: #0d2040; color: #4a9eff; }
+.pixel-btn-primary:hover { background: #1a3a6e; border-color: #7ab8ff; }
+
+.pixel-btn-success { border-color: #22c55e; background: #0d2a18; color: #22c55e; }
+.pixel-btn-success:hover { background: #0d3a1e; }
+
+.pixel-btn-danger { border-color: #ef4444; background: #1a0000; color: #ef4444; }
+.pixel-btn-danger:hover { background: #3a0d0d; }
+
+.pixel-btn-sm { font-size: 7px; padding: 4px 8px; }
+
+.pixel-input, .pixel-select, .pixel-textarea {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  background: #111;
+  border: 2px solid #333;
+  color: #e0e0e0;
+  padding: 6px 8px;
+  outline: none;
+  width: 100%;
+}
+.pixel-input:focus, .pixel-select:focus, .pixel-textarea:focus { border-color: #4a9eff; }
+.pixel-select { cursor: pointer; }
+.pixel-textarea { resize: vertical; line-height: 1.7; }
+
+/* ── Floor tiles ───────────────────────────────────── */
+.floor-tile {
+  background-color: #12121e;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ── Status badges ─────────────────────────────────── */
+.badge { display: inline-block; font-size: 7px; padding: 2px 6px; border: 1px solid; }
+.badge-idle    { border-color: #555; color: #888; }
+.badge-running { border-color: #facc15; color: #facc15; }
+.badge-done    { border-color: #22c55e; color: #22c55e; }
+.badge-error   { border-color: #ef4444; color: #ef4444; }
+
+/* ── Animations ────────────────────────────────────── */
+@keyframes agent-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+.agent-bounce { animation: agent-bounce 0.7s ease-in-out infinite; }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+.running-pulse { animation: pulse-glow 0.9s ease-in-out infinite; }
+
+/* ── Pixel character animations ────────────────── */
+@keyframes pixel-idle {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-2px); }
+}
+.pixel-idle { animation: pixel-idle 2s ease-in-out infinite; }
+
+@keyframes pixel-walk-l {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-3px); }
+}
+@keyframes pixel-walk-r {
+  0%, 100% { transform: translateY(-3px); }
+  50%       { transform: translateY(0px); }
+}
+.pixel-walk-l {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: pixel-walk-l 0.4s ease-in-out infinite;
+}
+.pixel-walk-r {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: pixel-walk-r 0.4s ease-in-out infinite;
+}
+
+@keyframes slide-right {
+  from { transform: translateX(16px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.slide-right { animation: slide-right 0.18s ease-out; }
+
+/* ── Panel borders ─────────────────────────────────── */
+.panel { background: #111; border: 2px solid #2a2a2a; }
+.panel-selected { border-color: #4a9eff; box-shadow: 0 0 10px rgba(74,158,255,0.2); }
+
+/* ── Room colors ───────────────────────────────────── */
+.room-engineering { border: 2px solid #4a9eff; }
+.room-executive   { border: 2px solid #a855f7; }
+.room-general     { border: 2px solid #a855f7; }
+.room-product     { border: 2px solid #ef4444; }
+
+/* ── Log entry ─────────────────────────────────────── */
+.log-entry { font-size: 7px; line-height: 1.8; color: #888; border-left: 2px solid #333; padding-left: 8px; }
+.log-entry.log-system { color: #4a9eff; border-left-color: #4a9eff; }
+.log-entry.log-done   { color: #22c55e; border-left-color: #22c55e; }
+.log-entry.log-error  { color: #ef4444; border-left-color: #ef4444; }
