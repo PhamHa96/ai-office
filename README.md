@@ -6,6 +6,10 @@ processes**, streaming their output in real-time to the browser.
 It is not a simulation --- each agent is an actual running process with
 its own model, context, and behavior.
 
+<img width="1467" height="799" alt="Screenshot 2026-03-30 at 11 43 09" src="https://github.com/user-attachments/assets/5d0f04d0-32a0-4a6b-941c-73e6d789d2c1" />
+
+<img width="523" height="696" alt="Screenshot 2026-03-30 at 11 45 54" src="https://github.com/user-attachments/assets/2727193d-99a9-495f-9983-2acafccccad5" />
+
 ------------------------------------------------------------------------
 
 ## 🧠 Architecture Overview
