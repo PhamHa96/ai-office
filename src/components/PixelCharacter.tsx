@@ -1,5 +1,3 @@
-import React from 'react'
-
 const PS = 3  // SVG units per pixel
 
 export type HairStyle = 'short' | 'long' | 'afro'
@@ -24,19 +22,30 @@ export const CHAR_PRESETS: CharPreset[] = [
   { hair: '#2c2c2c', skin: '#d4a574', shirt: '#3498db', pants: '#1a1a2e', boots: '#1a1a1a', style: 'short' },
 ]
 
+export type CharActivity = 'stand' | 'sleep' | 'walk' | 'type'
+
 interface Props {
-  variant?: number     // 0–5
+  variant?: number
+  activity?: CharActivity
+  /** @deprecated use activity instead */
   isRunning?: boolean
-  width?: number       // display width (default 30)
-  height?: number      // display height (default 54)
+  width?: number
+  height?: number
 }
 
-export function PixelCharacter({ variant = 0, isRunning = false, width, height }: Props) {
+export function PixelCharacter({ variant = 0, activity, isRunning = false, width, height }: Props) {
+  // Back-compat: if caller still passes isRunning, map it
+  const act: CharActivity = activity ?? (isRunning ? 'type' : 'stand')
+
   const p = CHAR_PRESETS[Math.max(0, Math.min(CHAR_PRESETS.length - 1, variant))]
   const { hair: H, skin: S, shirt: T, pants: P, boots: B } = p
   const E = '#1a1a2a'
 
-  const W = 10 * PS
+  const isWalking = act === 'walk'
+  const isTyping  = act === 'type'
+  const isSleeping = act === 'sleep'
+
+  const W  = 10 * PS
   const HT = 18 * PS
 
   return (
@@ -75,10 +84,24 @@ export function PixelCharacter({ variant = 0, isRunning = false, width, height }
       <R row={3} cols={[2,4,5,7]}         c={S} />
       <R row={4} cols={[2,3,4,5,6,7]}     c={S} />
       <R row={5} cols={[3,4,5,6]}         c={S} />
-      {/* Eyes */}
-      <R row={3} cols={[3,6]}             c={E} />
+
+      {/* Eyes – closed (skin) when sleeping, open otherwise */}
+      {isSleeping ? (
+        <R row={3} cols={[3,6]} c={S} />
+      ) : (
+        <R row={3} cols={[3,6]} c={E} />
+      )}
+
+      {/* Closed-eye lines when sleeping */}
+      {isSleeping && (
+        <>
+          <R row={4} cols={[3]} c={E} />
+          <R row={4} cols={[6]} c={E} />
+        </>
+      )}
+
       {/* Neck */}
-      <R row={6} cols={[4,5]}             c={S} />
+      <R row={6} cols={[4,5]} c={S} />
 
       {/* ── Shirt ────────────────────────────────────── */}
       <R row={7}  cols={[2,3,4,5,6,7]}     c={T} />
@@ -87,11 +110,33 @@ export function PixelCharacter({ variant = 0, isRunning = false, width, height }
       <R row={10} cols={[2,3,4,5,6,7]}     c={T} />
       <R row={11} cols={[2,3,4,5,6,7]}     c={T} />
 
+      {/* ── Arms extended for typing – tap DOWN onto keyboard ── */}
+      {isTyping && (
+        <g className="pixel-type-l">
+          {/* Upper arm – elbow out left */}
+          <R row={8}  cols={[0,1]}   c={T} />
+          {/* Forearm – coming down */}
+          <R row={9}  cols={[0,1]}   c={S} />
+          <R row={10} cols={[0,1]}   c={S} />
+          <R row={11} cols={[1,2,3]} c={S} />
+        </g>
+      )}
+      {isTyping && (
+        <g className="pixel-type-r">
+          {/* Upper arm – elbow out right */}
+          <R row={8}  cols={[8,9]}   c={T} />
+          {/* Forearm – coming down */}
+          <R row={9}  cols={[8,9]}   c={S} />
+          <R row={10} cols={[8,9]}   c={S} />
+          <R row={11} cols={[6,7,8]} c={S} />
+        </g>
+      )}
+
       {/* ── Pants waist ──────────────────────────────── */}
       <R row={12} cols={[2,3,4,5,6,7]} c={P} />
 
       {/* ── Left leg ─────────────────────────────────── */}
-      <g className={isRunning ? 'pixel-walk-l' : ''}>
+      <g className={isWalking ? 'pixel-walk-l' : ''}>
         <R row={13} cols={[2,3]} c={P} />
         <R row={14} cols={[2,3]} c={P} />
         <R row={15} cols={[2,3]} c={P} />
@@ -100,7 +145,7 @@ export function PixelCharacter({ variant = 0, isRunning = false, width, height }
       </g>
 
       {/* ── Right leg ────────────────────────────────── */}
-      <g className={isRunning ? 'pixel-walk-r' : ''}>
+      <g className={isWalking ? 'pixel-walk-r' : ''}>
         <R row={13} cols={[6,7]} c={P} />
         <R row={14} cols={[6,7]} c={P} />
         <R row={15} cols={[6,7]} c={P} />

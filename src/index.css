@@ -114,6 +114,79 @@ body {
   animation: pixel-walk-r 0.4s ease-in-out infinite;
 }
 
+/* Sleep – gentle head-droop */
+@keyframes pixel-sleep {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30%, 70% { transform: translateY(2px) rotate(-5deg); }
+}
+.pixel-sleep {
+  animation: pixel-sleep 3.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* ZZZ floating bubbles */
+@keyframes zzz-float {
+  0%   { transform: translateY(0px) scale(0.5); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 0.9; }
+  100% { transform: translateY(-22px) scale(1.2); opacity: 0; }
+}
+.zzz-a { animation: zzz-float 2.4s ease-out infinite; }
+.zzz-b { animation: zzz-float 2.4s ease-out infinite 0.8s; }
+.zzz-c { animation: zzz-float 2.4s ease-out infinite 1.6s; }
+
+/* Walk back and forth */
+@keyframes agent-walk-across {
+  0%   { transform: translateX(-13px) scaleX(1); }
+  48%  { transform: translateX(13px)  scaleX(1); }
+  52%  { transform: translateX(13px)  scaleX(-1); }
+  100% { transform: translateX(-13px) scaleX(-1); }
+}
+.agent-walk-across { animation: agent-walk-across 5s linear infinite; }
+
+/* Typing cursor blink */
+@keyframes type-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.type-cursor { animation: type-cursor 0.6s step-end infinite; }
+
+/* Typing pose – character stays still, only arms tap */
+.pixel-typing { /* no body animation when typing */ }
+
+/* Arms tap DOWN onto keyboard (opposite of pixel-walk which goes up) */
+@keyframes pixel-type-l {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(2px); }
+}
+@keyframes pixel-type-r {
+  0%, 100% { transform: translateY(2px); }
+  50%       { transform: translateY(0px); }
+}
+.pixel-type-l {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: pixel-type-l 0.3s ease-in-out infinite;
+}
+.pixel-type-r {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: pixel-type-r 0.3s ease-in-out infinite;
+}
+
+/* Running glow pulse around character box (replaces spinning ring) */
+@keyframes running-glow {
+  0%, 100% { box-shadow: 0 0 6px var(--glow), 0 0 12px var(--glow); }
+  50%       { box-shadow: 0 0 12px var(--glow), 0 0 24px var(--glow); }
+}
+.running-glow { animation: running-glow 1s ease-in-out infinite; }
+
+/* Spin (for running ring) */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 @keyframes slide-right {
   from { transform: translateX(16px); opacity: 0; }
   to   { transform: translateX(0);    opacity: 1; }
